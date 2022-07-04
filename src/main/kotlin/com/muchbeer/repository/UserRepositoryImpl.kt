@@ -1,6 +1,7 @@
 package com.muchbeer.repository
 
 import com.muchbeer.models.CreateUserParams
+import com.muchbeer.models.User
 import com.muchbeer.security.JwtConfig
 import com.muchbeer.servicevm.UserService
 import com.muchbeer.utilss.BaseResponse
@@ -28,6 +29,16 @@ class UserRepositoryImpl(private val userService: UserService) : UserRepository 
        return if (alluser.isNotEmpty()) {
             BaseResponse.SuccessResponse(alluser)
         } else BaseResponse.ErrorResponse(message = "No list obtained list found")
+    }
+
+    override suspend fun retrieveUserByMail(email: String?): BaseResponse<Any> {
+        val userByMail : User? = userService.findUserByEmail(email)
+
+    return    if (userByMail ==null) {
+            BaseResponse.ErrorResponse(exception = null, message = "No records found")
+        } else {
+            BaseResponse.SuccessResponse(userByMail)
+        }
     }
 
     private suspend fun isEmailExist(email : String) : Boolean {

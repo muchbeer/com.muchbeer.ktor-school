@@ -2,6 +2,9 @@ package com.muchbeer.routes
 
 import com.muchbeer.repository.UserRepository
 import com.muchbeer.models.CreateUserParams
+import com.muchbeer.utilss.BaseResponse
+import com.muchbeer.utilss.BaseResponse.*
+import io.ktor.http.*
 import io.ktor.server.routing.*
 import io.ktor.server.application.*
 import io.ktor.server.request.*
@@ -25,6 +28,22 @@ fun Application.authRoutes(repository : UserRepository) {
             val resultUsers = repository.retrieveUsers()
             call.respond(status = resultUsers.httpsStatus, resultUsers)
         }
+
+
+        get("/findUser/{user}") {
+            val user = call.parameters["user"]
+
+            //if it is only integer please us below
+            val userId = call.parameters["user"]?.toIntOrNull()
+            val receiveEmail = repository.retrieveUserByMail(user)
+            if (user == null) {
+               call.respond(status = receiveEmail.httpsStatus,
+                   message = "Need to input value here")
+                return@get
+            }
+            else   call.respond(status = receiveEmail.httpsStatus, message = receiveEmail)
+        }
+
 
         get("/index") {
             call.respondText {

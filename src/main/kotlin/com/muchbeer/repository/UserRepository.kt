@@ -7,4 +7,5 @@ interface UserRepository {
     suspend fun registerUser(params : CreateUserParams) : BaseResponse<Any>
     suspend fun loginUser(email : String, password: String) : BaseResponse<Any>
     suspend fun retrieveUsers() : BaseResponse<Any>
+    suspend fun retrieveUserByMail(email: String?) : BaseResponse<Any>
 }

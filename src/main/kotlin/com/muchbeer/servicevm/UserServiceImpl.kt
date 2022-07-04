@@ -5,10 +5,7 @@ import com.muchbeer.db.UserTable
 import com.muchbeer.db.hash
 import com.muchbeer.models.CreateUserParams
 import com.muchbeer.models.User
-import org.jetbrains.exposed.sql.ResultRow
-import org.jetbrains.exposed.sql.insert
-import org.jetbrains.exposed.sql.select
-import org.jetbrains.exposed.sql.selectAll
+import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.statements.InsertStatement
 
 class UserServiceImpl : UserService {
@@ -28,10 +25,10 @@ class UserServiceImpl : UserService {
         return rowReturn(statement?.resultedValues?.get(0))
     }
 
-    override suspend fun findUserByEmail(email: String): User? {
+    override suspend fun findUserByEmail(email: String?): User? {
        val user = dbQuery {
            UserTable.select {
-               UserTable.email.eq(email)
+               UserTable.email.eq(email!!)
            }.map {
                rowReturn(it)
            }.singleOrNull()

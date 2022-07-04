@@ -11,6 +11,7 @@ object UserTable : Table("gadiel") {
     val avatar = text("avatar")
     val email = varchar("email", 234)
     val password = text("password")
+
     val createdAt = datetime("created_at").clientDefault { LocalDateTime.now()}
 
             override val primaryKey = PrimaryKey(id)

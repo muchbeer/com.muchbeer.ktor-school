@@ -7,7 +7,8 @@ interface UserService {
 
     suspend fun registerUser(params : CreateUserParams) : User?
 
-    suspend fun findUserByEmail(email : String) : User?
+    suspend fun findUserByEmail(email : String?) : User?
 
     suspend fun retrieveAllUsers() : List<User?>
+
 }
